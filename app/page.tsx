@@ -27,7 +27,7 @@ export default function CVAnalyzer() {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-white mb-4">
               Analyze Your CV with{" "}
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-300 to-blue-600 bg-clip-text text-transparent">
                 AI Precision
               </span>
             </h2>

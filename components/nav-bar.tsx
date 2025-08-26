@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { Brain } from "lucide-react";
+import { Binoculars } from "lucide-react";
 import UserAvatar from "./auth/userAvatar";
 import Link from "next/link";
 
@@ -14,15 +14,15 @@ export default async function NavBar() {
         <div className="flex items-center gap-3">
           <Link
             href="/"
-            className="p-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500"
+            className="p-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700"
           >
-            <Brain className="h-6 w-6 text-white" />
+            <Binoculars className="h-6 w-6 text-white" />
           </Link>
           <div>
             <Link href="/" className="text-2xl font-bold text-white">
-              AI CV Analyst
+              CVision
             </Link>
-            <p className="text-gray-400">Advanced CV analysis powered by AI</p>
+            <p className="text-gray-400">See beyond the resumé</p>
           </div>
         </div>
         <UserAvatar session={session} />

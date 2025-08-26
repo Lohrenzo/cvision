@@ -13,9 +13,8 @@ const inter = Inter({ subsets: ["latin"] });
 const gabriela = Gabriela({ weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AI CV Analyst",
-  description:
-    "AI CV Analyst is a web application that uses AI to analyze and provide feedback on CVs.",
+  title: "CVision",
+  description: "See beyond the resumé.",
 };
 
 export default async function RootLayout({
@@ -33,7 +32,7 @@ export default async function RootLayout({
     >
       <SessionProvider>
         <body
-          className={`absolute ${gabriela.className} ${inter.className} relative antialiased min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900`}
+          className={`absolute ${gabriela.className} ${inter.className} relative antialiased min-h-screen bg-gradient-to-br from-gray-900 to-gray-900`}
         >
           {/* check if the url is signin or signup */}
           {session?.user && <NavBar />}

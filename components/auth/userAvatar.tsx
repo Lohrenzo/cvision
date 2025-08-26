@@ -59,12 +59,12 @@ export default function UserAvatar({ session }: { session: any }) {
         alt="User Avatar"
       />
       {isOpen && (
-        <div className="min-w-52 duration-200 ease-in-out absolute top-[5.4rem] right-4 grid grid-cols-1 rounded-md border border-blue-800/20 z-30 bg-black/90 backdrop-blur-xl shadow-md shadow-gray-800/15">
-          <div className="w-full text-center text-sm px-2 py-4">
+        <div className="min-w-52 duration-200 ease-in-out absolute top-[5.4rem] right-4 grid grid-cols-1 rounded-md border border-blue-800/20 z-30 bg-black/60 backdrop-blur-xl shadow-md shadow-gray-800/15">
+          <div className="w-full text-center text-sm px-2 py-4 border-b border-blue-900/45">
             <p className="text-gray-300">{session.user.username}</p>
             <p className="font-bold text-gray-500">{session.user.email}</p>
           </div>
-          <hr className="text-blue-800/30" />
+          {/* <hr className="text-gray-800/30" /> */}
           <div className="w-full font-bold text-sm px-2 py-4 grid grid-cols-1 gap-1.5 place-items-start">
             <Link
               href="/settings"

@@ -1,46 +1,58 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { 
-  ArrowLeft, CheckCircle, XCircle, AlertCircle, 
-  TrendingUp, Target, Lightbulb, Star, Brain 
-} from "lucide-react"
-import { useState } from "react"
-import { Sparkles } from "lucide-react"
-import { CVComparison } from "./cv-comparison"
-import toast from "react-hot-toast"
-
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import {
+  ArrowLeft,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+  TrendingUp,
+  Target,
+  Lightbulb,
+  Star,
+  Brain,
+} from "lucide-react";
+import { useState } from "react";
+import { Sparkles } from "lucide-react";
+import { CVComparison } from "./cv-comparison";
+import toast from "react-hot-toast";
 
 /**
  * Analysis result structure from the API
  */
 interface AnalysisResult {
-  overallScore: number
-  matchPercentage: number
-  strengths: string[]
-  weaknesses: string[]
-  missingSkills: string[]
-  recommendations: string[]
+  overallScore: number;
+  matchPercentage: number;
+  strengths: string[];
+  weaknesses: string[];
+  missingSkills: string[];
+  recommendations: string[];
   keywordMatch: {
-    matched: string[]
-    missing: string[]
-  }
-  summary: string
+    matched: string[];
+    missing: string[];
+  };
+  summary: string;
 }
 
 /**
  * Props for the CVAnalysis component
  */
 interface CVAnalysisProps {
-  analysis: AnalysisResult
-  onReset: () => void
-  originalCV: string
-  jobRole: string
-  jobDescription: string
+  analysis: AnalysisResult;
+  onReset: () => void;
+  originalCV: string;
+  jobRole: string;
+  jobDescription: string;
 }
 
 /**
@@ -66,7 +78,6 @@ export function CVAnalysis({
   const [renderedCVUrl, setRenderedCVUrl] = useState<string | null>(null);
   // const [pdfLayerKey, setPdfLayerKey] = useState<string>("");
 
-  
   /**
    * Returns appropriate color class based on score
    *
@@ -74,10 +85,10 @@ export function CVAnalysis({
    * @returns string - Tailwind color class
    */
   const getScoreColor = (score: number): string => {
-    if (score >= 80) return "text-green-400"
-    if (score >= 60) return "text-yellow-400"
-    return "text-red-400"
-  }
+    if (score >= 80) return "text-green-400";
+    if (score >= 60) return "text-yellow-400";
+    return "text-red-400";
+  };
 
   // /**
   //  * Returns appropriate gradient class based on score
@@ -96,7 +107,7 @@ export function CVAnalysis({
    * Updates the rendered CV state with the result
    */
   const handleRewriteCV = async () => {
-    setIsRewriting(true)
+    setIsRewriting(true);
     try {
       const response = await fetch("/api/rewrite-cv", {
         method: "POST",
@@ -109,43 +120,46 @@ export function CVAnalysis({
           jobDescription,
           analysis,
         }),
-      })
+      });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}))
-        throw new Error(errorData.details || errorData.error || "CV rewrite failed")
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.details || errorData.error || "CV rewrite failed"
+        );
       }
 
       // Check if response is actually a PDF
-      const contentType = response.headers.get('content-type')
-      if (!contentType || !contentType.includes('application/pdf')) {
-        throw new Error("Server did not return a PDF file")
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/pdf")) {
+        throw new Error("Server did not return a PDF file");
       }
 
-      const blob = await response.blob()
+      const blob = await response.blob();
 
       // Validate blob size
       if (blob.size === 0) {
-        throw new Error("Received empty PDF file")
+        throw new Error("Received empty PDF file");
       }
 
       // Create a URL for the PDF blob
-      const url = URL.createObjectURL(blob)
-      setRenderedCVUrl(url)
+      const url = URL.createObjectURL(blob);
+      setRenderedCVUrl(url);
       // setRenderedCV(renderedCVUrl)
-      console.log("Rendered CV URL: ", renderedCVUrl)
+      console.log("Rendered CV URL: ", renderedCVUrl);
 
-      console.log(`PDF generated successfully, size: ${blob.size} bytes`)
-      toast.success("CV rewrite completed successfully! 🎉")
+      console.log(`PDF generated successfully, size: ${blob.size} bytes`);
+      toast.success("CV rewrite completed successfully! 🎉");
     } catch (error) {
-      console.error("CV rewriting failed:", error)
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred"
-      toast.error(`CV rewrite failed: ${errorMessage}`)
+      console.error("CV rewriting failed:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      toast.error(`CV rewrite failed: ${errorMessage}`);
       // toast.error("CV rewrite failed. Please try again.")
     } finally {
-      setIsRewriting(false)
+      setIsRewriting(false);
     }
-  }
+  };
 
   /**
    * Downloads the rewritten CV as a text file
@@ -153,33 +167,35 @@ export function CVAnalysis({
    */
   const downloadCV = () => {
     if (!renderedCVUrl) {
-      toast.error("No CV available to download")
-      return
+      toast.error("No CV available to download");
+      return;
     }
 
     try {
       // Create a temporary anchor to trigger download
-      const link = document.createElement("a")
-      link.href = renderedCVUrl
-      link.download = `rewritten_cv_${jobRole.replace(/\s+/g, '_').toLowerCase()}.pdf`
-      link.click()
+      const link = document.createElement("a");
+      link.href = renderedCVUrl;
+      link.download = `rewritten_cv_${jobRole
+        .replace(/\s+/g, "_")
+        .toLowerCase()}.pdf`;
+      link.click();
 
-      toast.success("PDF Downloaded Initiated 📄")
+      toast.success("PDF Downloaded Initiated 📄");
     } catch (error) {
-      console.error("PDF download error:", error)
-      toast.error("Failed to Download PDF. Please try again.")
+      console.error("PDF download error:", error);
+      toast.error("Failed to Download PDF. Please try again.");
     }
-  }
+  };
 
   /**
    * Cleans up blob URL when component unmounts or URL changes
    */
   const cleanupBlobUrl = () => {
     if (renderedCVUrl) {
-      URL.revokeObjectURL(renderedCVUrl)
-      setRenderedCVUrl(null)
+      URL.revokeObjectURL(renderedCVUrl);
+      setRenderedCVUrl(null);
     }
-  }
+  };
 
   return (
     <div className="">
@@ -192,8 +208,12 @@ export function CVAnalysis({
                 <Brain className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-white">CV Analysis Results</h1>
-                <p className="text-gray-400">Comprehensive AI-powered analysis</p>
+                <h1 className="text-2xl font-bold text-white">
+                  CV Analysis Results
+                </h1>
+                <p className="text-gray-400">
+                  Comprehensive AI-powered analysis
+                </p>
               </div>
             </div>
             <Button
@@ -222,13 +242,21 @@ export function CVAnalysis({
               {/* Score Display */}
               <div className="flex items-center justify-between mb-4">
                 <div className="text-center">
-                  <div className={`text-4xl font-bold ${getScoreColor(analysis.overallScore)}`}>
+                  <div
+                    className={`text-4xl font-bold ${getScoreColor(
+                      analysis.overallScore
+                    )}`}
+                  >
                     {analysis.overallScore}%
                   </div>
                   <p className="text-gray-400">Overall Match</p>
                 </div>
                 <div className="text-center">
-                  <div className={`text-4xl font-bold ${getScoreColor(analysis.matchPercentage)}`}>
+                  <div
+                    className={`text-4xl font-bold ${getScoreColor(
+                      analysis.matchPercentage
+                    )}`}
+                  >
                     {analysis.matchPercentage}%
                   </div>
                   <p className="text-gray-400">Job Relevance</p>
@@ -241,7 +269,10 @@ export function CVAnalysis({
                   <span className="text-gray-400">Match Strength</span>
                   <span className="text-white">{analysis.overallScore}%</span>
                 </div>
-                <Progress value={analysis.overallScore} className="h-3 bg-gray-700" />
+                <Progress
+                  value={analysis.overallScore}
+                  className="h-3 bg-gray-700"
+                />
               </div>
             </CardContent>
           </Card>
@@ -252,7 +283,9 @@ export function CVAnalysis({
               <CardTitle className="text-white">Executive Summary</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-300 leading-relaxed">{analysis.summary}</p>
+              <p className="text-gray-300 leading-relaxed">
+                {analysis.summary}
+              </p>
             </CardContent>
           </Card>
 
@@ -265,7 +298,9 @@ export function CVAnalysis({
                   <CheckCircle className="h-5 w-5 text-green-400" />
                   Key Strengths
                 </CardTitle>
-                <CardDescription className="text-gray-400">Areas where your CV excels</CardDescription>
+                <CardDescription className="text-gray-400">
+                  Areas where your CV excels
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -286,7 +321,9 @@ export function CVAnalysis({
                   <AlertCircle className="h-5 w-5 text-yellow-400" />
                   Areas for Improvement
                 </CardTitle>
-                <CardDescription className="text-gray-400">Aspects that could be enhanced</CardDescription>
+                <CardDescription className="text-gray-400">
+                  Aspects that could be enhanced
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -318,7 +355,10 @@ export function CVAnalysis({
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {analysis.keywordMatch.matched.map((keyword, index) => (
-                    <Badge key={index} className="bg-green-600/20 text-green-400 border-green-600/30">
+                    <Badge
+                      key={index}
+                      className="bg-green-600/20 text-green-400 border-green-600/30"
+                    >
                       {keyword}
                     </Badge>
                   ))}
@@ -335,7 +375,10 @@ export function CVAnalysis({
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {analysis.keywordMatch.missing.map((keyword, index) => (
-                    <Badge key={index} className="bg-red-600/20 text-red-400 border-red-600/30">
+                    <Badge
+                      key={index}
+                      className="bg-red-600/20 text-red-400 border-red-600/30"
+                    >
                       {keyword}
                     </Badge>
                   ))}
@@ -358,7 +401,10 @@ export function CVAnalysis({
             <CardContent>
               <div className="grid md:grid-cols-2 gap-4">
                 {analysis.missingSkills.map((skill, index) => (
-                  <div key={index} className="p-3 rounded-lg bg-gray-900/50 border border-gray-700">
+                  <div
+                    key={index}
+                    className="p-3 rounded-lg bg-gray-900/50 border border-gray-700"
+                  >
                     <p className="text-gray-300">{skill}</p>
                   </div>
                 ))}
@@ -373,7 +419,9 @@ export function CVAnalysis({
                 <Lightbulb className="h-5 w-5 text-purple-400" />
                 AI Recommendations
               </CardTitle>
-              <CardDescription className="text-gray-400">Actionable steps to improve your CV</CardDescription>
+              <CardDescription className="text-gray-400">
+                Actionable steps to improve your CV
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -406,7 +454,8 @@ export function CVAnalysis({
                   AI CV Rewriter
                 </CardTitle>
                 <CardDescription className="text-gray-400">
-                  Generate an optimized CV based on the analysis recommendations.
+                  Generate an optimized CV based on the analysis
+                  recommendations.
                 </CardDescription>
                 {/* <CardDescription className="text-gray-400">
                   For this feature, we use SelectPDF. You can go to <Link href="https://selectpdf.com/api/RequestKey.aspx" target="_blank" className="underline hover:text-white">selectpdf.com/api/RequestKey.aspx</Link> to learn get an API key. <br />
@@ -420,7 +469,7 @@ export function CVAnalysis({
                 <Button
                   onClick={handleRewriteCV}
                   disabled={isRewriting}
-                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3"
+                  className="w-full bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-800 hover:to-blue-600 text-white font-semibold py-3"
                 >
                   {isRewriting ? (
                     <>
@@ -440,5 +489,5 @@ export function CVAnalysis({
         </div>
       </div>
     </div>
-  )
+  );
 }

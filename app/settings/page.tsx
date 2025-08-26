@@ -283,7 +283,7 @@ export default function SettingsPage() {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+    <div className="min-h-screen bg-gradient-to-br">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Account Overview */}
@@ -512,7 +512,7 @@ export default function SettingsPage() {
                 <Button
                   type="submit"
                   disabled={isUpdatingPassword}
-                  className="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white"
+                  className="bg-gradient-to-r from-red-700 to-red-800 hover:from-red-900 hover:to-pink-900 text-white"
                 >
                   {isUpdatingPassword ? (
                     <>

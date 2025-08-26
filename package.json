@@ -1,6 +1,6 @@
 {
-  "name": "ai-cv-analyst",
-  "description": "AI CV Analyst is a web application that uses AI to analyze and provide feedback on CVs.",
+  "name": "cvision",
+  "description": "CVision is a web application that uses AI to analyze and provide feedback on CVs. See beyond the resumé.",
   "version": "0.1.0",
   "private": true,
   "scripts": {
