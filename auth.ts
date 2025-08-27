@@ -75,7 +75,7 @@ const providers: Provider[] = [
                     throw new Error("Invalid credentials")
                 }
 
-                console.log("User found:", { id: user.id, email: user.email })
+                // console.log("User found:", { id: user.id, email: user.email })
 
                 // Verify password against stored hash
                 if (!user.password) {
@@ -90,7 +90,7 @@ const providers: Provider[] = [
 
                 console.log("Authentication successful for user:", email)
 
-                console.log("User data being returned:", user)
+                // console.log("User data being returned:", user)
                 // Return user object with their profile data
                 return {
                     id: user.id,
@@ -103,7 +103,7 @@ const providers: Provider[] = [
                 }
 
             } catch (error) {
-                console.error("Sign-in error:", error)
+                // console.error("Sign-in error:", error)
                 throw error
 
             }

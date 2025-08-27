@@ -179,11 +179,11 @@ export async function POST(request: NextRequest) {
 
 
     if (!isValidPdfComponent(cleanedHTML)) {
-      console.log("Cleaned HTML: ", cleanedHTML)
+      // console.log("Cleaned HTML: ", cleanedHTML)
       return NextResponse.json({ error: "Invalid HTML structure" }, { status: 400 })
     }
 
-    console.log("Evaluating cleaned HTML:\n", cleanedHTML)
+    // console.log("Evaluating cleaned HTML:\n", cleanedHTML)
 
     // Optionally update the database with the raw HTML string
     // const session = auth()
