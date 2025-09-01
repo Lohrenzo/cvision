@@ -21,7 +21,7 @@ export async function handleSignUp(formData: FormData) {
     dob: formData.get("dob"),
     password: formData.get("password") as string,
     confirmPassword: formData.get("confirmPassword") as string,
-    redirectTo: "/",
+    redirectTo: "/home",
   });
 }
 
@@ -37,7 +37,7 @@ export async function handleSignIn(formData: FormData) {
   await signIn("credentials-signin", {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
-    redirectTo: "/",
+    redirectTo: "/home",
   });
 }
 
@@ -51,7 +51,7 @@ export async function authenticateWithGoogle() {
   "use server";
 
   await signIn("google", {
-    redirectTo: "/",
+    redirectTo: "/home",
   });
 }
 

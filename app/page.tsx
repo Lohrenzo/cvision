@@ -1,48 +1,46 @@
 "use client";
-import type React from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 
-import FeatureCards from "@/components/feature-cards";
-import CVAnalysisForm from "@/components/cv-analysis-form";
-import Loading from "@/components/loading";
+export default function Index() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
-export default function CVAnalyzer() {
-  const { status } = useSession();
+  useEffect(() => {
+    if (status === "loading") return;
+    if (session) {
+      router.replace("/home");
+    }
+  }, [session, status, router]);
 
-  // useEffect(() => {
-  //   toast("Welcome To Your Personal AI Powered CV Analyst", {
-  //     icon: "👋🏽",
-  //   });
-  // }, []);
-
-  if (status === "loading") <Loading />;
-
-  // if (!session?.user) redirect("/auth/signin");
+  if (status === "loading" || session) {
+    return null;
+  }
 
   return (
-    <div className="">
-      {/* Main Content Area */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-white mb-4">
-              Analyze Your CV with{" "}
-              <span className="bg-gradient-to-r from-blue-300 to-blue-600 bg-clip-text text-transparent">
-                AI Precision
-              </span>
-            </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Get detailed insights on how well your CV matches job requirements
-              with our advanced AI powered analysis
-            </p>
-          </div>
-          {/* Feature Cards */}
-          <FeatureCards />
-
-          {/* CV Analysis Form */}
-          <CVAnalysisForm />
-        </div>
+    <main className="flex flex-col items-center px-3 justify-center min-h-[90vh]">
+      <div className="text-center p-8 rounded-lg shadow-lg border-gray-800/50 bg-black/40 backdrop-blur">
+        <img
+          src="/cvision-logo.png"
+          alt="CVision Logo"
+          className="mx-auto mb-6 w-24 h-24 rounded-lg"
+        />
+        <h1 className="text-4xl font-bold text-white mb-4">
+          Welcome to CVision
+        </h1>
+        <p className="text-lg text-gray-400 mb-6">
+          Your AI-powered platform for CV analysis, comparison, and rewriting.
+          Upload your CV and unlock insights to boost your career!
+        </p>
+        <Link
+          href="/auth/signin"
+          className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
+        >
+          Get Started
+        </Link>
       </div>
-    </div>
+    </main>
   );
 }

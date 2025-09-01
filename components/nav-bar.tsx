@@ -14,7 +14,7 @@ export default async function NavBar() {
       <div className="flex justify-between items-center container mx-auto px-4 py-6">
         <div className="flex items-center gap-3">
           <Link
-            href="/"
+            href="/home"
             className="rounded-lg bg-gradient-to-r from-blue-500 to-blue-700"
           >
             {/* <Binoculars className="h-6 w-6 text-white" /> */}
@@ -27,7 +27,7 @@ export default async function NavBar() {
             />
           </Link>
           <div>
-            <Link href="/" className="text-2xl font-bold text-white">
+            <Link href="/home" className="text-2xl font-bold text-white">
               CVision
             </Link>
             <p className="text-gray-400">See beyond the resumé</p>
